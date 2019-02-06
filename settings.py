@@ -9,5 +9,9 @@ NULL_BD = False
 GROUP_ID = '-174076629'
 GROUP_IDP = '174076629'
 
+APP_ID = '6831160'
+FON_IMAGE = "original.jpg"
+OUT_IMAGE = "out.jpg"
+
 MY_LOGIN = 'company.magaz@gmail.com'
 MY_PASS = 'KrMkh993z9n'

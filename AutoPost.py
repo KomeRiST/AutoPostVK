@@ -9,7 +9,7 @@ from PIL import ImageDraw
 from PIL import ImageFont 
 
 import time
-import settings
+import settings as const
 
 def glob(step, precent):
     def spl(text, maxlen):
@@ -43,7 +43,7 @@ def glob(step, precent):
         return imgDrawer, img
 
     def add_Title_txtDrawer(text, size=144, color=(0,0,0, 170), align='center', spicer=50):
-        font = ImageFont.truetype("DualityRegular.otf", size) # Настраиваем шрифт для заголовка
+        font = ImageFont.truetype("fonts\DualityRegular.otf", size) # Настраиваем шрифт для заголовка
         font_size = font.getsize(text) # Узнаём размер текста
         font_width = font_size[0] # Узнаём ширину текста
         font_height = font_size[1] # Узнаём высоту текста
@@ -51,7 +51,7 @@ def glob(step, precent):
         return (font_height * 2)
 
     def add_Desc_txtDrawer(text, size=50, color=(0,0,0, 170), align='left', spicer=200):
-        font = ImageFont.truetype("DualityRegular.otf", size) # Настраиваем шрифт для заголовка
+        font = ImageFont.truetype("fonts\DualityRegular.otf", size) # Настраиваем шрифт для заголовка
         txtDrawer.multiline_text(xy=(200, spicer), text=text, font=font, fill=color, spacing=25, align=align) # рисуем текст, с позиционированием
     
     def get_Random_word_desc():
@@ -102,27 +102,29 @@ def glob(step, precent):
             popytka += 1
             word, desc, id_w, lins = get_Random_word_desc()
             col = len(desc)
-        imgDrawer, img = create_imgDrawer("original.jpg")
+        imgDrawer, img = create_imgDrawer(const.FON_IMAGE)
         txt = Image.new('RGBA', img.size, (255,255,255,0))
         txtDrawer = ImageDraw.Draw(txt)
         spiser = add_Title_txtDrawer(text=word)
         add_Title_txtDrawer(text="[id:{} | p:{}]".format(id_w, popytka), size=24, spicer=5)
         add_Desc_txtDrawer(text=desc, spicer=spiser)
         out = Image.alpha_composite(img, txt)
-        out.save("pil-example.png") # сохраняем в файл
+        out.save(const.OUT_IMAGE) # сохраняем в файл
 
         #session = vk.Session(ACC_TOKEN_VK_FULL)
-        session = vk.AuthSession(app_id='6831160', user_login=MY_LOGIN, user_password=MY_PASS, scope='photos, wall, messages')
-        vk_API = vk.API(session)
 
         ran_id = random.randint(0, MAX_INT32)
 
-        #pfile = post(vk_API.photos.getMessagesUploadServer(v=VER_API_VK, peer_id='0')['upload_url'], files = {'photo': open('pil-example.png', 'rb')}).json()
-        #photo = vk_API.photos.saveMessagesPhoto(v=VER_API_VK, server = pfile['server'], photo = pfile['photo'], hash = pfile['hash'])[0]
-        #vk_API.messages.send(v=VER_API_VK, user_id=MY_ID, random_id=ran_id, peer_id='0', message='#'+word, attachment='photo%s_%s'%(photo['owner_id'], photo['id']))
-        pfile =  post(vk_API.photos.getWallUploadServer(v=VER_API_VK, group_id=GROUP_IDP)['upload_url'], files = {'photo': open('pil-example.png', 'rb')}).json()
-        photo = vk_API.photos.saveWallPhoto(v=VER_API_VK, group_id=GROUP_IDP, server = pfile['server'], photo = pfile['photo'], hash = pfile['hash'])[0]
+        #pfile = post(vk_API.photos.getMessagesUploadServer(v=const.VER_API_VK, peer_id='0')['upload_url'], files = {'photo': open('pil-example.png', 'rb')}).json()
+        #photo = vk_API.photos.saveMessagesPhoto(v=const.VER_API_VK, server = pfile['server'], photo = pfile['photo'], hash = pfile['hash'])[0]
+        #vk_API.messages.send(v=const.VER_API_VK, user_id=const.MY_ID, random_id=ran_id, peer_id='0', message='#'+word, attachment='photo%s_%s'%(photo['owner_id'], photo['id']))
+        pfile =  post(vk_API.photos.getWallUploadServer(v=const.VER_API_VK, group_id=const.GROUP_IDP)['upload_url'], files = {'photo': open(const.OUT_IMAGE, 'rb')}).json()
+        photo = vk_API.photos.saveWallPhoto(v=const.VER_API_VK, group_id=const.GROUP_IDP, server = pfile['server'], photo = pfile['photo'], hash = pfile['hash'])[0]
         #word = u'#{}'.format(word)
-        vk_API.wall.post(v=VER_API_VK, owner_id=GROUP_ID, from_group='1', message='#'+word, attachment='photo%s_%s'%(photo['owner_id'], photo['id']))
+        vk_API.wall.post(v=const.VER_API_VK, owner_id=const.GROUP_ID, from_group='1', message='#'+word, attachment='photo%s_%s'%(photo['owner_id'], photo['id']))
 
-glob(60*15, 23)
+
+session = vk.AuthSession(app_id=const.APP_ID, user_login=const.MY_LOGIN, user_password=const.MY_PASS, scope='photos, wall, messages')
+vk_API = vk.API(session)
+
+glob(60*30, 23)
