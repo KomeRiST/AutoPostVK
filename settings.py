@@ -11,7 +11,7 @@ GROUP_IDP = '174076629'
 
 APP_ID = '6831160'
 FON_IMAGE = "original.jpg"
-OUT_IMAGE = "out.jpg"
+OUT_IMAGE = "out.png"
 
 MY_LOGIN = 'company.magaz@gmail.com'
 MY_PASS = 'KrMkh993z9n'

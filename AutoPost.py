@@ -1,6 +1,7 @@
 import random
 import sqlite3
 import vk
+import sys
 
 from requests import *
 
@@ -11,7 +12,7 @@ from PIL import ImageFont
 import time
 import settings as const
 
-def glob(step, precent):
+def glob(step, precent=1):
     def spl(text, maxlen):
         # Перевод строки по количеству символов. Возвращаем новый текст.
         text1 = ''  # записываем сюда новую строку
@@ -91,9 +92,6 @@ def glob(step, precent):
             return (title, desc, rand_word, length)
 
     while True:
-        p = int(step * precent / 100)
-        p = random.randint(-p, p)
-        time.sleep(step+p)
 
         popytka = 0
         lins = 1
@@ -113,7 +111,7 @@ def glob(step, precent):
 
         #session = vk.Session(ACC_TOKEN_VK_FULL)
 
-        ran_id = random.randint(0, MAX_INT32)
+        ran_id = random.randint(0, const.MAX_INT32)
 
         #pfile = post(vk_API.photos.getMessagesUploadServer(v=const.VER_API_VK, peer_id='0')['upload_url'], files = {'photo': open('pil-example.png', 'rb')}).json()
         #photo = vk_API.photos.saveMessagesPhoto(v=const.VER_API_VK, server = pfile['server'], photo = pfile['photo'], hash = pfile['hash'])[0]
@@ -122,9 +120,22 @@ def glob(step, precent):
         photo = vk_API.photos.saveWallPhoto(v=const.VER_API_VK, group_id=const.GROUP_IDP, server = pfile['server'], photo = pfile['photo'], hash = pfile['hash'])[0]
         #word = u'#{}'.format(word)
         vk_API.wall.post(v=const.VER_API_VK, owner_id=const.GROUP_ID, from_group='1', message='#'+word, attachment='photo%s_%s'%(photo['owner_id'], photo['id']))
+        
+        print('Готово! ', word)
+
+        p = int(step * precent / 100)
+        p = random.randint(-p, p)
+        countsec = step+p
+        while countsec > 0:
+        # Следующий пост через ХХ скунд.
+            sys.stdout.write('Следующий пост через '+str(countsec)+' скунд.\r')
+            sys.stdout.flush()
+            time.sleep(1)
+            countsec -= 1
+
 
 
 session = vk.AuthSession(app_id=const.APP_ID, user_login=const.MY_LOGIN, user_password=const.MY_PASS, scope='photos, wall, messages')
 vk_API = vk.API(session)
 
-glob(60*30, 23)
+glob(60*30)

@@ -37,6 +37,9 @@
     <Compile Include="AutoPost.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="printprogress.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="settings.py">
       <SubType>Code</SubType>
       <Publish>False</Publish>
