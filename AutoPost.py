@@ -93,6 +93,17 @@ def glob(step, precent=1):
 
     while True:
 
+        while True:
+            try:
+                print("Пробуем получить сессию от ВК.")
+                session = vk.AuthSession(app_id=const.APP_ID, user_login=const.MY_LOGIN, user_password=const.MY_PASS, scope='photos, wall, messages')
+                vk_API = vk.API(session)
+                print("Всё прошло успешно. Проболжаем работу")
+                break
+            except:
+                print("Возникла проблема при получении сессии от ВК. Ждём 5 сек.")
+                time.sleep(5)
+
         popytka = 0
         lins = 1
         col = 0
@@ -133,9 +144,5 @@ def glob(step, precent=1):
             time.sleep(1)
             countsec -= 1
 
-
-
-session = vk.AuthSession(app_id=const.APP_ID, user_login=const.MY_LOGIN, user_password=const.MY_PASS, scope='photos, wall, messages')
-vk_API = vk.API(session)
 
 glob(60*30)
