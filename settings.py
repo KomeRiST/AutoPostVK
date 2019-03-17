@@ -8,6 +8,9 @@ MAX_INT32 = 2147483647
 NULL_BD = False
 GROUP_ID = '-174076629'
 GROUP_IDP = '174076629'
+GROUP_ID_IMG = '-179770870'
+GROUP_IDP_IMG = '179770870'
+ACC_TOKEN_VK_FULL_IMG = 'adbcbfd52fa9335014f82c2578e65808aaaa97d3fd31a50266b90ad15d5c7a56a0db8828140aaf6cb23e1'
 
 APP_ID = '6831160'
 FON_IMAGE = "original.jpg"
@@ -15,3 +18,7 @@ OUT_IMAGE = "out.png"
 
 MY_LOGIN = 'company.magaz@gmail.com'
 MY_PASS = 'KrMkh993z9n'
+
+MAIN_PATH_PICTURES = 'E:\\Картинки\\' # Корневая папка с подпапками (задумывается всего две)
+PATH_IMAGE = 'IMAGE\\' # Папка с картинками без понятного названия
+PATH_IMAGE_HAVE_DESCRIPTIONS = 'IMAGE_HAVE_DESCRIPTIONS\\' # Папка с картинками и понятным названием файла (для вставки описания картинки)
